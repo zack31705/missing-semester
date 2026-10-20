@@ -159,19 +159,23 @@ int main() {
 - 指针运用场景：
     - 函数返回运算的状态，结果通过指针返回
     - 函数参数中的数组与指针等价
-```
+```cpp
         int sum(int * a, int n)
-        ⇔ int sum(int *, int)
-        ⇔ int sum(int a[], int n)
-        ⇔ int sum(int [], int)
-        (&a[1] 与 &a[0] 相差4字节，&a ⇔ a ⇔ &a[0])
+        //⇔ int sum(int *, int)
+        //⇔ int sum(int a[], int n)
+        //⇔ int sum(int [], int)
+        //&a[1] 与 &a[0] 相差4字节，&a ⇔ a ⇔ &a[0]
 ```
+
     - 数组变量本身表达地址，所以
+
 ```cpp
         int a[10];
         int *p = a;     // 无需用&取地址 (此时p指向a[0])
 ```
+
     - 数组中的元素表达的是变量，需要用&取地址
+
 ```cpp
         int *p = &a[10];
        （a == &a[0]        a+1 == &a[1]）
@@ -214,6 +218,7 @@ int main() {
     int *q = brr;
     q = q + 1; (q指向的地址+4).    (q++; 也可以)
 ```
+
 - 给一个指针+1 ⇒ 在地址值上加一个sizeof (把指针移到下一个单元)
 
 - ```
@@ -223,6 +228,7 @@ int main() {
 ```
 
 - 当两个指针相减时，结果是地址的差除以sizeof(指针类型)
+
 ```cpp
     int arr[10];
     int *q = arr;       int *q1 = &a[6];
@@ -257,37 +263,48 @@ int main() {
 头文件：`#include <string>`
 
 #### 创建 string 的方式
-- string s1;              // 空字符串
-- string s2 = "hello";    // 从字面量
-- string s3("hello");     // 构造函数
-- string s4(5, 'a');      // "aaaaa"
-- string s5 = s2;         // 拷贝构造
-- string s6(s2);          // 拷贝构造
-- string s7(s2, 1, 3);    // 从下标1开始取3个字符 -> "ell"
-- string s8 = s2 + "world"; // 拼接
+
+```cpp
+string s1;              // 空字符串
+string s2 = "hello";    // 从字面量
+string s3("hello");     // 构造函数
+string s4(5, 'a');      // "aaaaa"
+string s5 = s2;         // 拷贝构造
+string s6(s2);          // 拷贝构造
+string s7(s2, 1, 3);    // 从下标1开始取3个字符 -> "ell"
+string s8 = s2 + "world"; // 拼接
+```
 
 #### 基本操作
 - 赋值：
-	- string s;
-	- s = "hello";
-	- s = s2;   // 拷贝
-	- s = 'a';  // 单个字符 (不是字符串，字符串结尾有看不见的 \0)
+```cpp
+string s;
+s = "hello";
+s = s2;   // 拷贝
+s = 'a';  // 单个字符 (不是字符串，字符串结尾有看不见的 \0)
+```
+
 - 访问：
-	- string s = "hello";
-	- s[0];       // 'h'，不检查越界
-	- s.at(0);    // 'h'，越界会抛异常 out_of_range
-	- s.front();  // 'h'，第一个字符 
-	- s.back();   // 'o'，最后一个字符 
-	- s[0] = 'H'; // 可以修改 -> "Hello"
+```cpp
+string s = "hello";
+s[0];       // 'h'，不检查越界
+s.at(0);    // 'h'，越界会抛异常 out_of_range
+s.front();  // 'h'，第一个字符 
+s.back();   // 'o'，最后一个字符 
+s[0] = 'H'; // 可以修改 -> "Hello"
+```
+
 - 长度：
 	- s.size();   // 长度
 	- s.empty();  // 是否为空，返回 bool (是返 1，否返 0)
 - 比较：
-	- string a = "abc"; 
-	- string b = "abd";
-	- a == b;     // false
-	- a < b;      // true (字典序)
-	- a.compare(b); // 返回值<0 表示 a<b
+```cpp
+string a = "abc"; 
+string b = "abd";
+a == b;     // false
+a < b;      // true (字典序)
+a.compare(b); // 返回值<0 表示 a<b
+```
 
 #### 常用成员函数
 - 查找：
