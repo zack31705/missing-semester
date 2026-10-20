@@ -4,7 +4,7 @@
 - Linux的图形化较弱，但系统运行透明，后台操作可查看，多数操作需终端完成（可以把终端当作一个文件管理器）
 - 机器人开发中的Linux：开发电脑通过网络或者SSH连接机器人主机，需要用到C++工具链、SSH远程开发、服务自动启动
 ### 文件系统结构
--Linux的目录从 / 开始：
+- Linux的目录从 / 开始：
 	- /home/user 用户文
 	- /etc 系统配置
 	- /usr 程序与库
@@ -35,8 +35,8 @@
 ## shell
 
 ### 什么是脚本
-- 脚本本质上是一个文本文件，里面按顺序写了一系列命令，交给解释器（如 bash）自动执行。它的作用是把重复、多步的操作“打包”成一条命令，避免每次手动输入。比如每天备份日志、批量重命名文件，都可以写成脚本一键完成。
-- Shell 脚本就是写给 Shell（命令行解释器）执行的脚本，Ubuntu 默认用 bash。
+- 脚本本质上是一个文本文件，里面按顺序写了一系列命令，交给解释器（如 bash）自动执行。它的作用是把重复、多步的操作“打包”成一条命令，避免每次手动输入。比如每天备份日志、批量重命名文件，都可以写成脚本一键完成
+- Shell 脚本就是写给 Shell（命令行解释器）执行的脚本，Ubuntu 默认用 bash
 
 ### shell的四种常见组合
 - 变量：
@@ -72,11 +72,11 @@
 ## git
 
 ### git的四个位置
-1.工作区 （正在编辑的文件）
-2.暂存区 （本次提交的内容清单）
-3.本地仓库 （已记录的提交历史）
-4.github远程仓库 （远程保存的提交历史）
--commit只记录到本地仓库；push才把提交发送到远程
+1. 工作区 （正在编辑的文件）
+2. 暂存区 （本次提交的内容清单）
+3. 本地仓库 （已记录的提交历史）
+4. github远程仓库 （远程保存的提交历史）
+- commit只记录到本地仓库；push才把提交发送到远程
 
 ### git常用命令：获取与查看
 - git clone 仓库地址 （下载仓库及提交历史）
@@ -136,88 +136,104 @@ int main() {
 ## 地址与指针
 - 运算符 &：获得变量的地址，它的操作对象必须是变量
 - 指针：就是保存地址的变量
+```cpp
      int i;
-     int *p = &i;    *就表示p在这里是一个指针 (p指向i ⇔ p的值是i的变量的地址
-
-     int *p, q;      *是加给后面的变量的
-     p是指针    q是普通int变量
-     指针不会放实际数值
-
+     int *p = &i;  //*就表示p在这里是一个指针 (p指向i ⇔ p的值是i的变量的地址
+```
+```cpp
+     int *p, q;    //*是加给后面的变量的
+     //p是指针 , q是普通int变量
+     //指针不会放实际数值
+```
+```cpp
      int *p, *q;
-     都是指针
-
+     //p、q都是指针
+```
 - *是单目运算符，用来访问指针的值所表示的地址上的变量 (的值)
+```cpp
     int i = 6;
     int *p = &i;
     cout << *p << endl; // 6
+```
 
 - 指针运用场景：
     - 函数返回运算的状态，结果通过指针返回
     - 函数参数中的数组与指针等价
+```
         int sum(int * a, int n)
         ⇔ int sum(int *, int)
         ⇔ int sum(int a[], int n)
         ⇔ int sum(int [], int)
         (&a[1] 与 &a[0] 相差4字节，&a ⇔ a ⇔ &a[0])
-
+```
     - 数组变量本身表达地址，所以
+```cpp
         int a[10];
         int *p = a;     // 无需用&取地址 (此时p指向a[0])
+```
     - 数组中的元素表达的是变量，需要用&取地址
+```cpp
         int *p = &a[10];
        （a == &a[0]        a+1 == &a[1]）
+```
 
 - 指针与 const:
-    - 默认状态 int i; int *p = &i;
+    - 默认状态 int i; int *p = &i;  
     (p后续可以指向其他变量，即后面可以有 p = &j;
     *p的值可以后续被改变，即 *p = 30 )
 
-    - int * const p = &i
+    - int * const p = &i  
     (此时p是const，p的地址不能再变更，比如后续不能进行 p++; (i的地址加1(四个字节))、也不能再 p = &j;
     但是 *p 不是const，可以改变. *p = 26; // OK )
 
-    - const int *p = &i;
+    - const int *p = &i;  
     (此时 *p 是 const，不能变：*p = 13  // error！ 即不能通过访问地址来改变变量的值. 但是i是可变的：i = 26; // OK
     且p也不是const，也可变  p = &j; // OK)
 
 - 判断哪个被 const 了的标志是 const 在 * 的前面还是后面:
+```cpp
     int i;
-    const int * p1 = &i;   >
-    int const * p2 = &i;   > 这两者等价
+    const int * p1 = &i;
+    int const * p2 = &i;  //与上一行等价
     int * const p3 = &i;
+```
 
 - const 数组
-    const int a[] = {1, 2, 3, 4, 5, 6}
-    数组a[]中的元素均不能再被改变，每个单元都是const int
+    - const int a[] = {1, 2, 3, 4, 5, 6}
+    - 数组a[]中的元素均不能再被改变，每个单元都是const int
 
 - 保护数组值，想把数组输入函数里，又希望函数不修改数组的值
-    可以 int sum(const int a[], int length);
+    - 可以 int sum(const int a[], int length);
 
 - 指针的运算  （ sizeof(char) = 1, sizeof(int) = 4 ）
+```
     char arr[];
     char *p = arr;
     p = p + 1; (p指向的地址+1)
     int brr[];
     int *q = brr;
     q = q + 1; (q指向的地址+4).    (q++; 也可以)
-
+```
 - 给一个指针+1 ⇒ 在地址值上加一个sizeof (把指针移到下一个单元)
 
-- int a[5] = {0, 1, 2, 3, 4};
-    cout << *a << endl;   // 0 (a[0])
-    cout << *(a+1) << endl; // 1 (a[1])
+- ```
+  int a[5] = {0, 1, 2, 3, 4};
+  cout << *a << endl;   // 0 (a[0])
+  cout << *(a+1) << endl; // 1 (a[1])
+```
 
 - 当两个指针相减时，结果是地址的差除以sizeof(指针类型)
+```cpp
     int arr[10];
     int *q = arr;       int *q1 = &a[6];
-    cout << (q1 - q) << endl; // 6
-    表示这两地址中间，有几个这样类型的东西
-- *p++   (++的运算符优先级高于*)
-
+    cout << (q1 - q)/sizeof(int)<< endl; // 6
+    //表示这两地址中间，有几个这样类型的东西
+```
 ## 动态内存分配
 - malloc()函数. (给它一个参数，表示我要多大的内存)
-    需要加头文件 #include <stdlib.h>
-    (用于不能用变量定义数组元素个数时)
+	- 需要加头文件 #include <stdlib.h>
+	- 可用于不能用变量定义数组元素个数时
+```cpp
     #include <stdio.h>
     #include <stdlib.h>
     int main(void) {
@@ -225,14 +241,14 @@ int main() {
         cin >> n;
         // int a[n]; // 报错！
         int *a;
-        a = (int*)malloc(number * sizeof(int))   (malloc返回的是void*，而a是int*，所以在malloc前面要加(int*))
+        a = (int*)malloc(number * sizeof(int))   //malloc返回的是void*，而a是int*，所以在malloc前面要加(int*)
         (接下来就能把指针a当数组用了)
-
+```
 - 注意需要在程序结束前将malloc占的空间还回去
-    free(a); // 还内存
+```cpp
+    free(a); // 还内存 (如果申请内存失败则返回0，或者叫做 NULL)
     return 0;
-    (如果申请内存失败则返回0，或者叫做 NULL)
-
+```
 - free()函数: 注意 free() 里的参数是原地址，如上述例子中，不能对 a++ 后再 free(a)，需让 a 恢复原地址
 
 ## 字符串
@@ -252,36 +268,36 @@ int main() {
 
 #### 基本操作
 - 赋值：
-	string s;
-	s = "hello";
-	s = s2;   // 拷贝
-	s = 'a';  // 单个字符 (不是字符串，字符串结尾有看不见的 \0)
+	- string s;
+	- s = "hello";
+	- s = s2;   // 拷贝
+	- s = 'a';  // 单个字符 (不是字符串，字符串结尾有看不见的 \0)
 - 访问：
-	string s = "hello";
-	s[0];       // 'h'，不检查越界
-	s.at(0);    // 'h'，越界会抛异常 out_of_range
-	s.front();  // 'h'，第一个字符 
-	s.back();   // 'o'，最后一个字符 
-	s[0] = 'H'; // 可以修改 -> "Hello"
+	- string s = "hello";
+	- s[0];       // 'h'，不检查越界
+	- s.at(0);    // 'h'，越界会抛异常 out_of_range
+	- s.front();  // 'h'，第一个字符 
+	- s.back();   // 'o'，最后一个字符 
+	- s[0] = 'H'; // 可以修改 -> "Hello"
 - 长度：
-	s.size();   // 长度
-	s.empty();  // 是否为空，返回 bool (是返 1，否返 0)
+	- s.size();   // 长度
+	- s.empty();  // 是否为空，返回 bool (是返 1，否返 0)
 - 比较：
-	string a = "abc"; 
-	string b = "abd";
-	a == b;     // false
-	a < b;      // true (字典序)
-	a.compare(b); // 返回值<0 表示 a<b
+	- string a = "abc"; 
+	- string b = "abd";
+	- a == b;     // false
+	- a < b;      // true (字典序)
+	- a.compare(b); // 返回值<0 表示 a<b
 
 #### 常用成员函数
 - 查找：
-	s.find("world");   // 6 (若找不到则返回 string::npos)
-	s.find('o');       // 4
-	s.rfind('o');      // 7 (从后往前找)
-	s.find("xyz");     // string::npos
+	- s.find("world");   // 6 (若找不到则返回 string::npos)
+	- s.find('o');       // 4
+	- s.rfind('o');      // 7 (从后往前找)
+	- s.find("xyz");     // string::npos
 - 子串：
-	s.substr(6);       // "world" (从下标6开始取到末尾)
-	s.substr(0, 5);    // "hello" (从下标0开始取5个字符)
+	- s.substr(6);       // "world" (从下标6开始取到末尾)
+	- s.substr(0, 5);    // "hello" (从下标0开始取5个字符)
 - 插入：
 	s.insert(5, "!");  // "hello! world" (下标5插入"!") (注意：插入的是字符串，用双引号)
 - 删除：
@@ -291,9 +307,10 @@ int main() {
 - 清空：
 	s.clear();         // s 变为空串
 - 数字转字符串：
+```
 	int n = 1;
 	string s = to_string(n); // "1"
-
+```
 ## c++的类(class)与对象(object)
 
 ### class基本概念
@@ -318,16 +335,19 @@ public:
 };
 ```
 - 用这个类创建一个对象：
+```
 	Student s; // 创建对象 (按照 Student 这个模板，造出一个学生(对象)，起名为 s)
 	s.name = "张三"; // 根据成员变量对 s 进行定义
 	s.age = 18;
 	s.score = 90.5;
 	s.print(); // 调用成员函数
+```
 - 可创建多个对象：
+```
 	Student s1;
 	Student s2;
 	Student s3;
-
+```
 ### 访问控制：
 - private：只有本类内部能访问
 - protected：本类和子类能访问，外面不行
@@ -343,7 +363,10 @@ public:
     }
 ```
 - 使用：Student s("张三", 18, 90.5); （创建对象s）
-- 构造函数也可以写成这样（初始化列表）：Student(string n, int a, double s) : name(n), age(a), score(s) {} 
+- 构造函数也可以写成这样（初始化列表）：
+```cpp
+Student(string n, int a, double s) : name(n), age(a), score(s) {} 
+```
 
 ### 析沟函数：对象怎么死亡，名字是 ~类名，比如 ~Student() { ... }
 ```cpp
@@ -404,11 +427,14 @@ class Teacher : public Person {
 - 三种继承方式：public、protected、private（最常用的是 public 继承）
 （注意：不管哪种继承方式，基类的 private 成员在子类中都不能直接访问）
 - 子类构造与析构顺序：子类构造时，要先基类、再成员、最后自己；析构时：先自己，再成员，最后基类
-		举个例子 基类构造：Person(int i, string n, int a) : id(i), name(n), age(a) {}
-                         子类：private:
-    				   double score;
-			       public:
-   			      	   Student(int i, string n, int a, double s) :Person(i, n, a), score(s) {}
+	- 举个例子 基类构造：Person(int i, string n, int a) : id(i), name(n), age(a) {}
+	- 子类：
+```cpp
+private:
+    double score;
+public:
+    Student(int i, string n, int a, double s) :Person(i, n, a), score(s) {}
+```
 
 ## 数据结构
 
